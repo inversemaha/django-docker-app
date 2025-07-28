@@ -14,3 +14,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy project
 COPY . .
+
+# Add entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
