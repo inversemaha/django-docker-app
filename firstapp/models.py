@@ -11,3 +11,7 @@ class Reservation(models.Model):
     guest_count = models.IntegerField()
     reservation_time = models.DateTimeField(auto_now=True)
     comments = models.CharField(max_length=1000)
+
+    def __str__(self):
+        formatted_time = self.reservation_time.strftime("%d-%m-%Y %I:%M %p")
+        return f"{self.first_name} {self.last_name} - {self.guest_count} guests at {formatted_time}"

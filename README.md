@@ -10,27 +10,64 @@ This project demonstrates how to run a Django application inside a Docker contai
 
 ## Project Structure
 ```
-├── app/                   # Django project directory
+├── app/                      # Django project directory
 │   ├── __init__.py
 │   ├── asgi.py
-│   ├── settings.py         # Project settings
-│   ├── urls.py             # Main URL configuration
+│   ├── settings.py            # Project settings
+│   ├── urls.py                # Main URL configuration
 │   ├── wsgi.py
-│   └── firstapp/           # Example Django app (created by you)
+│   └── firstapp/              # Example Django app
 │       ├── __init__.py
 │       ├── admin.py
 │       ├── apps.py
+│       ├── forms.py           # Django forms for Reservation
 │       ├── migrations/
-│       ├── models.py
+│       ├── models.py          # MenuItem and Reservation models
 │       ├── tests.py
-│       ├── views.py        # Your app's views
-│       └── urls.py         # Your app's URLs
-├── Dockerfile              # Docker build instructions
-├── docker-compose.yml      # Docker Compose configuration
-├── entrypoint.sh           # Entrypoint script for auto project creation
-├── requirements.txt        # Python dependencies
-└── manage.py               # Django management script (created automatically)
+│       ├── views.py           # Views for hello, GreetingView, home (reservation)
+│       └── urls.py            # URL patterns for firstapp
+├── Dockerfile                 # Docker build instructions
+├── docker-compose.yml         # Docker Compose configuration (web, db, phpmyadmin)
+├── entrypoint.sh              # Entrypoint script for auto project creation
+├── requirements.txt           # Python dependencies (include mysqlclient)
+└── manage.py                  # Django management script (created automatically)
 ```
+## Models, Forms, and Views
+
+**Models:**
+- `MenuItem`: Stores menu items with name and price.
+- `Reservation`: Stores reservation details (first name, last name, guest count, reservation time, comments).
+
+**Forms:**
+- `ReservationsForm`: Django ModelForm for creating reservations.
+
+**Views:**
+- `hello`: Returns a simple hello message.
+- `GreetingView`: Returns a greeting message.
+- `home`: Handles reservation form display and submission.
+
+## Database and Admin
+
+- Uses MySQL as the database (configured in `settings.py`).
+- phpMyAdmin is available at [http://localhost:8080](http://localhost:8080) for database management.
+
+## Running the Project
+
+1. Build and start all services:
+   ```
+   docker-compose up --build
+   ```
+2. Run migrations:
+   ```
+   docker-compose exec web python manage.py makemigrations
+   docker-compose exec web python manage.py migrate
+   ```
+3. Access Django at [http://localhost:8000](http://localhost:8000)
+4. Access phpMyAdmin at [http://localhost:8080](http://localhost:8080)
+
+## Notes
+- Make sure `mysqlclient` is in your `requirements.txt` for MySQL support.
+- All Django management commands should be run inside the container using `docker-compose exec web ...`.
 
 ## Working with Django Apps (e.g., firstapp)
 
